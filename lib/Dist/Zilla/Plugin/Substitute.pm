@@ -1,10 +1,11 @@
 package Dist::Zilla::Plugin::Substitute;
 {
-  $Dist::Zilla::Plugin::Substitute::VERSION = '0.001';
+  $Dist::Zilla::Plugin::Substitute::VERSION = '0.002';
 }
 
 use Moose;
-use Moose::Util::TypeConstraints;
+use MooseX::Types -declare => [ 'CodeLiteral' ];
+use MooseX::Types::Moose qw/ArrayRef CodeRef/;
 
 with qw/Dist::Zilla::Role::FileMunger/;
 
@@ -14,12 +15,12 @@ has finders => (
 	default => sub { [ qw/:InstallModules :ExecFiles/ ] },
 );
 
-subtype 'CodeLiteral', as 'CodeRef';
-coerce 'CodeLiteral', from 'ArrayRef', via { eval sprintf "sub { %s } ", join "\n", @{ $_ } };
+subtype CodeLiteral, as CodeRef;
+coerce CodeLiteral, from ArrayRef, via { eval sprintf "sub { %s } ", join "\n", @{ $_ } };
 
 has code => (
 	is       => 'ro',
-	isa      => 'CodeLiteral',
+	isa      => CodeLiteral,
 	coerce   => 1,
 	required => 1,
 );
@@ -64,7 +65,7 @@ Dist::Zilla::Plugin::Substitute - Substitutions for files in dzil
 
 =head1 VERSION
 
-version 0.001
+version 0.002
 
 =head1 SYNOPSIS
 

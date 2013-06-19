@@ -19,12 +19,16 @@ meta-spec:
   url: http://module-build.sourceforge.net/META-spec-v1.4.html
   version: 1.4
 name: Dist-Zilla-Plugin-Substitute
+no_index:
+  directory:
+    - corpus
 requires:
   Dist::Zilla::Role::FileMunger: 0
   Moose: 0
-  Moose::Util::TypeConstraints: 0
+  MooseX::Types: 0
+  MooseX::Types::Moose: 0
   perl: 5.006
 resources:
   bugtracker: http://rt.cpan.org/Public/Dist/Display.html?Name=Dist-Zilla-Plugin-Substitute
   repository: git://github.com/Leont/dist-zilla-plugin-substitute.git
-version: 0.001
+version: 0.002

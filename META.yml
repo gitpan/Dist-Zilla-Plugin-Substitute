@@ -13,7 +13,7 @@ build_requires:
 configure_requires:
   Module::Build::Tiny: 0.021
 dynamic_config: 0
-generated_by: 'Dist::Zilla version 4.300034, CPAN::Meta::Converter version 2.120921'
+generated_by: 'Dist::Zilla version 4.300035, CPAN::Meta::Converter version 2.120921'
 license: perl
 meta-spec:
   url: http://module-build.sourceforge.net/META-spec-v1.4.html
@@ -25,10 +25,10 @@ no_index:
 requires:
   Dist::Zilla::Role::FileMunger: 0
   Moose: 0
-  MooseX::Types: 0
+  Moose::Util::TypeConstraints: 0
   MooseX::Types::Moose: 0
   perl: 5.006
 resources:
   bugtracker: http://rt.cpan.org/Public/Dist/Display.html?Name=Dist-Zilla-Plugin-Substitute
   repository: git://github.com/Leont/dist-zilla-plugin-substitute.git
-version: 0.002
+version: 0.003

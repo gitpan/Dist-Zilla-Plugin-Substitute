@@ -6,10 +6,10 @@ MANIFEST
 META.json
 META.yml
 README
-corpus/dist.ini
 corpus/lib/Foo.pm
 dist.ini
 lib/Dist/Zilla/Plugin/Substitute.pm
 t/00-compile.t
 t/basic.t
+t/filename.t
 t/release-pod-syntax.t

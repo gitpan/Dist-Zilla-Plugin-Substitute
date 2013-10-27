@@ -1,22 +1,31 @@
 package Dist::Zilla::Plugin::Substitute;
 {
-  $Dist::Zilla::Plugin::Substitute::VERSION = '0.003';
+  $Dist::Zilla::Plugin::Substitute::VERSION = '0.004';
 }
 
 use Moose;
 use Moose::Util::TypeConstraints;
 use MooseX::Types::Moose qw/ArrayRef CodeRef/;
 
+use Carp 'croak';
+
 with qw/Dist::Zilla::Role::FileMunger/;
 
 has finders => (
-	is  => 'ro',
-	isa => 'ArrayRef',
-	default => sub { [ qw/:InstallModules :ExecFiles/ ] },
+	is      => 'bare',
+	isa     => 'ArrayRef',
+	default => sub { [qw/:InstallModules :ExecFiles/] },
+	traits  => ['Array'],
+	handles => {
+		finders => 'elements',
+	},
 );
 
 my $codeliteral = subtype as CodeRef;
-coerce $codeliteral, from ArrayRef, via { eval sprintf "sub { %s } ", join "\n", @{ $_ } };
+coerce $codeliteral, from ArrayRef, via {
+	my $code = sprintf 'sub { %s } ', join "\n", @{$_};
+	eval $code or croak "Couldn't eval: $@";
+};
 
 has code => (
 	is       => 'ro',
@@ -25,24 +34,40 @@ has code => (
 	required => 1,
 );
 has filename_code => (
-	is       => 'ro',
-	isa      => $codeliteral,
-	coerce   => 1,
+	is        => 'ro',
+	isa       => $codeliteral,
+	coerce    => 1,
 	predicate => '_has_filename_code',
 );
 
 sub mvp_multivalue_args {
-	return qw/finders code filename_code/;
-}
-sub mvp_aliases {
-	return { content_code => 'code' };
+	return qw/finders code filename_code files/;
 }
 
-sub files {
-	my $self = shift;
-	my @filesets = map { @{ $self->zilla->find_files($_) } } @{ $self->finders };
-	my %files = map { $_->name => $_ } @filesets;
-	return values %files;
+sub mvp_aliases {
+	return {
+		content_code => 'code',
+		finder       => 'finders',
+		file         => 'files',
+	};
+}
+
+has files => (
+	is      => 'bare',
+	isa     => ArrayRef,
+	builder => '_build_files',
+	traits  => ['Array'],
+	lazy    => 1,
+	handles => {
+		files => 'elements',
+	},
+);
+
+sub _build_files {
+	my $self     = shift;
+	my @filesets = map { @{ $self->zilla->find_files($_) } } $self->finders;
+	my %files    = map { $_->name => $_ } @filesets;
+	return [ values %files ];
 }
 
 sub munge_files {
@@ -59,7 +84,7 @@ sub munge_file {
 	$file->content(join "\n", @content);
 
 	if ($self->_has_filename_code) {
-		my $filename = $file->name;
+		my $filename      = $file->name;
 		my $filename_code = $self->filename_code;
 		$filename_code->() for $filename;
 		$file->name($filename);
@@ -82,14 +107,19 @@ Dist::Zilla::Plugin::Substitute - Substitutions for files in dzil
 
 =head1 VERSION
 
-version 0.003
+version 0.004
 
 =head1 SYNOPSIS
 
  [Substitute]
  finder = :ExecFiles
  code = s/Foo/Bar/g
- filename_code = s/foo\.pl/bar.pl/
+ 
+ ; alternatively
+ [Substitute]
+ file = lib/Buz.pm
+ code = s/Buz/Quz/g
+ filename_code = s/Buz/Quz/
 
 =head1 DESCRIPTION
 
@@ -108,7 +138,11 @@ Optional.
 
 =head2 finders
 
-The finders to use for the substitutions. Defaults to C<:InstallModules, :ExecFiles>.
+The finders to use for the substitutions. Defaults to C<:InstallModules, :ExecFiles>. May also be spelled as C<finder> in the dist.ini.
+
+=head2 files
+
+The files to substitute. It defaults to the files in C<finders>. May also be spelled as C<file> in the dist.ini.
 
 # vi:noet:sts=2:sw=2:ts=2
 

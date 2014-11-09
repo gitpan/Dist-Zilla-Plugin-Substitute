@@ -3,22 +3,23 @@ abstract: 'Substitutions for files in dzil'
 author:
   - 'Leon Timmermans <leont@cpan.org>'
 build_requires:
-  File::Spec: 0
-  IO::Handle: 0
-  IPC::Open3: 0
-  Path::Class: 0
-  Test::DZil: 0
-  Test::More: 0.88
-  strict: 0
-  warnings: 0
+  File::Spec: '0'
+  IO::Handle: '0'
+  IPC::Open3: '0'
+  Path::Tiny: '0'
+  Test::DZil: '0'
+  Test::More: '0.88'
+  perl: '5.006'
+  strict: '0'
+  warnings: '0'
 configure_requires:
-  Module::Build::Tiny: 0.030
+  Module::Build::Tiny: '0.039'
 dynamic_config: 0
-generated_by: 'Dist::Zilla version 4.300039, CPAN::Meta::Converter version 2.132830'
+generated_by: 'Dist::Zilla version 5.021, CPAN::Meta::Converter version 2.142690'
 license: perl
 meta-spec:
   url: http://module-build.sourceforge.net/META-spec-v1.4.html
-  version: 1.4
+  version: '1.4'
 name: Dist-Zilla-Plugin-Substitute
 no_index:
   directory:
@@ -26,15 +27,15 @@ no_index:
 provides:
   Dist::Zilla::Plugin::Substitute:
     file: lib/Dist/Zilla/Plugin/Substitute.pm
-    version: 0.004
+    version: '0.005'
 requires:
-  Carp: 0
-  Dist::Zilla::Role::FileMunger: 0
-  Moose: 0
-  Moose::Util::TypeConstraints: 0
-  MooseX::Types::Moose: 0
-  perl: 5.006
+  Carp: '0'
+  Dist::Zilla::Role::FileMunger: '0'
+  Moose: '0'
+  Moose::Util::TypeConstraints: '0'
+  MooseX::Types::Moose: '0'
+  perl: '5.006'
 resources:
   bugtracker: http://rt.cpan.org/Public/Dist/Display.html?Name=Dist-Zilla-Plugin-Substitute
   repository: git://github.com/Leont/dist-zilla-plugin-substitute.git
-version: 0.004
+version: '0.005'

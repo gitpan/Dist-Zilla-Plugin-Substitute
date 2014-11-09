@@ -1,8 +1,5 @@
 package Dist::Zilla::Plugin::Substitute;
-{
-  $Dist::Zilla::Plugin::Substitute::VERSION = '0.004';
-}
-
+$Dist::Zilla::Plugin::Substitute::VERSION = '0.005';
 use Moose;
 use Moose::Util::TypeConstraints;
 use MooseX::Types::Moose qw/ArrayRef CodeRef/;
@@ -23,7 +20,7 @@ has finders => (
 
 my $codeliteral = subtype as CodeRef;
 coerce $codeliteral, from ArrayRef, via {
-	my $code = sprintf 'sub { %s } ', join "\n", @{$_};
+	my $code = sprintf 'sub { %s }', join "\n", @{$_};
 	eval $code or croak "Couldn't eval: $@";
 };
 
@@ -101,13 +98,15 @@ __END__
 
 =pod
 
+=encoding UTF-8
+
 =head1 NAME
 
 Dist::Zilla::Plugin::Substitute - Substitutions for files in dzil
 
 =head1 VERSION
 
-version 0.004
+version 0.005
 
 =head1 SYNOPSIS
 

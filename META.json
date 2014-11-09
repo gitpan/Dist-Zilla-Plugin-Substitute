@@ -4,7 +4,7 @@
       "Leon Timmermans <leont@cpan.org>"
    ],
    "dynamic_config" : 0,
-   "generated_by" : "Dist::Zilla version 4.300039, CPAN::Meta::Converter version 2.132830",
+   "generated_by" : "Dist::Zilla version 5.021, CPAN::Meta::Converter version 2.142690",
    "license" : [
       "perl_5"
    ],
@@ -21,7 +21,7 @@
    "prereqs" : {
       "configure" : {
          "requires" : {
-            "Module::Build::Tiny" : "0.030"
+            "Module::Build::Tiny" : "0.039"
          }
       },
       "develop" : {
@@ -44,9 +44,10 @@
             "File::Spec" : "0",
             "IO::Handle" : "0",
             "IPC::Open3" : "0",
-            "Path::Class" : "0",
+            "Path::Tiny" : "0",
             "Test::DZil" : "0",
             "Test::More" : "0.88",
+            "perl" : "5.006",
             "strict" : "0",
             "warnings" : "0"
          }
@@ -55,7 +56,7 @@
    "provides" : {
       "Dist::Zilla::Plugin::Substitute" : {
          "file" : "lib/Dist/Zilla/Plugin/Substitute.pm",
-         "version" : "0.004"
+         "version" : "0.005"
       }
    },
    "release_status" : "stable",
@@ -70,6 +71,6 @@
          "web" : "https://github.com/Leont/dist-zilla-plugin-substitute"
       }
    },
-   "version" : "0.004"
+   "version" : "0.005"
 }
 
